@@ -121,7 +121,9 @@ export class Sandbox extends SandboxApi {
         apiUrl: this.envdApiUrl,
         logger: opts?.logger,
       },
-      opts?.envdVersion
+      {
+        version: opts?.envdVersion
+      }
     )
     this.files = new Filesystem(
       rpcTransport,
