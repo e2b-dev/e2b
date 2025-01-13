@@ -201,10 +201,10 @@ class AsyncSandbox(SandboxSetup, SandboxApi):
             request_timeout=request_timeout,
         )
 
-        sandbox_id, envd_version = (
-            "debug_sandbox_id", None
-            if connection_config.debug
-            else await SandboxApi._create_sandbox(
+        if connection_config.debug:
+            sandbox_id, envd_version = "debug_sandbox_id", None
+        else:
+            sandbox_id, envd_version = await SandboxApi._create_sandbox(
                 template=template or cls.default_template,
                 api_key=api_key,
                 timeout=timeout or cls.default_sandbox_timeout,
@@ -214,7 +214,6 @@ class AsyncSandbox(SandboxSetup, SandboxApi):
                 request_timeout=request_timeout,
                 env_vars=envs,
             )
-        )
 
         return cls(
             sandbox_id=sandbox_id,
